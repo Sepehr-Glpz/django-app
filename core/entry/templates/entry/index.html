@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    Hello there
+    <ul>
+        {% for msg in messages %}
+        <li>
+            <a href="{% url 'invite' msg %}">
+                {{msg}}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
