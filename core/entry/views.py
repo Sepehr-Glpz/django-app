@@ -27,9 +27,12 @@ def get_invite_form(request, link):
     context = None
     try:
         requestedEntry = EntryRequest.objects.get(id=link)
-        context = {"content": requestedEntry.email}
+        if requestedEntry.resolved == True:
+            context = {"error": "This Users entry has already been resolved!"}
+        else:
+            context = {"content": requestedEntry.email}
     except ObjectDoesNotExist:
-        context = {"content": "Failed to find"}
+        context = {"error": "Failed to find"}
 
     return HttpResponse(render(request, "entry/invite.html", context))
 
