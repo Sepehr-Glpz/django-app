@@ -19,7 +19,7 @@ class ManagementUser(BaseEntity):
     access_level = models.ForeignKey(UserAccess, to_field="id", on_delete=models.SET_DEFAULT, default=1)
 
 
-class Payment(BaseEntity):
-    payment_date = models.DateField(unique=True)
-    amount = models.PositiveIntegerField()
-    owner = models.ForeignKey(ManagementUser, null=True, to_field="id", on_delete=models.CASCADE)
+# class Payment(BaseEntity):
+#     payment_date = models.DateField(unique=True)
+#     amount = models.PositiveIntegerField()
+#     owner = models.ForeignKey(ManagementUser, null=True, to_field="id", on_delete=models.CASCADE)
