@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<article>
-  Hello mr. {{content}}
-</article>
+  <form >
+    {% csrf_token %}
+    <fieldset>
+          {{content.as_p}}
+    </fieldset>
+  </form>
 {% endblock %}

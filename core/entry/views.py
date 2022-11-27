@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import EntryRequest, get_request_by_email
-from entry.forms import RequestForm
+from entry.forms import RequestForm, SignupForm
 from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
@@ -46,7 +46,8 @@ def get_invite_form(request, link):
         if requested_entry.resolved:
             context = {"error": "This Users entry has already been resolved!"}
         else:
-            context = {"content": requested_entry.email}
+            form = SignupForm()
+            context = {"content": form}
     except ObjectDoesNotExist:
         context = {"error": "Failed to find"}
 

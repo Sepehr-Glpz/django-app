@@ -16,8 +16,10 @@ class ManagementUser(BaseEntity):
     birth_date = models.DateField(null=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=64)
+    access_level = models.ForeignKey(UserAccess, to_field="id", on_delete=models.SET_DEFAULT, default=1)
 
 
 class Payment(BaseEntity):
     payment_date = models.DateField(unique=True)
     amount = models.PositiveIntegerField()
+    owner = models.ForeignKey(ManagementUser, to_field="id", on_delete=models.CASCADE)
