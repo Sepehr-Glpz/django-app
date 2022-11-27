@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.template import loader
 from .models import EntryRequest, get_request_by_email, resolve_entry, get_request_by_id
 from entry.forms import RequestForm, SignupForm
 from django.core.exceptions import ObjectDoesNotExist
 from uuid import UUID
+from django.contrib.auth import login
 import logging
+
 # Create your views here.
 
 logger = logging.getLogger(__name__)
+
 
 def invite_page(request):
     form = RequestForm()
@@ -21,7 +23,7 @@ def create_invite(request):
         form = RequestForm(request.POST)
 
         if not form.is_valid():
-            return redirect("invite/")
+            return redirect("/entry/invite")
 
         form.save()
         user, err = get_request_by_email(form.cleaned_data['email'])
@@ -46,7 +48,7 @@ def get_invite_form(request, link):
     context = None
     user_id = convert_id(link)
     if user_id is None:
-        return HttpResponse(render(request, 'not_found.html',{"error": "invalid id!"}))
+        return HttpResponse(render(request, 'not_found.html', {"error": "invalid id!"}))
     try:
         requested_entry = EntryRequest.objects.get(id=link)
         if requested_entry.resolved:
@@ -75,15 +77,16 @@ def signup(request, id):
     user_form = SignupForm(request.POST)
 
     if not user_form.is_valid():
-        redirect("/invite/")
+        return redirect("/entry/invite")
 
-    pass_valid = validate_password(user_form.cleaned_data)
-    if not pass_valid:
-        context = {"content": user_form, "id": user_id}
-        return HttpResponse(render(request, 'entry/invite.html', context))
+    # pass_valid = validate_password(user_form.cleaned_data)
+    # if not pass_valid:
+    #     context = {"content": user_form, "id": user_id}
+    #     return HttpResponse(render(request, 'entry/invite.html', context))
 
-    user_form.save()
+    user = user_form.save()
     resolve_entry(id)
+    login(request, user)
 
     return HttpResponse(render(request, 'entry/welcome.html', context))
 

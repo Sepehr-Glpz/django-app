@@ -19,7 +19,7 @@ class SignupForm(forms.ModelForm):
     class Meta:
         model = ManagementUser
         fields = [
-            "name","username", "email","national_code","birth_date", "password",
+            "name", "username", "email", "national_code", "birth_date", "password",
         ]
 
     def clean(self):
@@ -27,14 +27,13 @@ class SignupForm(forms.ModelForm):
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
 
-
         if password != confirm_password:
             raise forms.ValidationError(
-                "password and confirm_password does not match"
+                "password and confirm_password do not match"
             )
 
 
     def save(self, commit=True):
         user = super().save()
         user.password = make_password(self.cleaned_data['password'])
-        user.save()
+        return user.save()
