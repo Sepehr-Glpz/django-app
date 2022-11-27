@@ -34,7 +34,7 @@ class ManagementUser(CustomUser):
     name = models.CharField(max_length=30, null=True)
     national_code = models.CharField(max_length=10, unique=True)
     birth_date = models.DateField(null=True)
-    salary = models.PositiveIntegerField(null=True)
+    salary = models.PositiveIntegerField(null=True, default=0)
     access_level = models.ForeignKey(UserAccess, to_field="id", on_delete=models.SET_DEFAULT, default=1)
 
     def __str__(self):

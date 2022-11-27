@@ -84,11 +84,10 @@ def signup(request, id):
     #     context = {"content": user_form, "id": user_id}
     #     return HttpResponse(render(request, 'entry/invite.html', context))
 
-    user = user_form.save()
+    user_form.save()
     resolve_entry(id)
-    login(request, user)
 
-    return HttpResponse(render(request, 'entry/welcome.html', context))
+    return redirect("/management/login")
 
 
 def convert_id(user_id):

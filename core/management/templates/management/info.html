@@ -2,12 +2,15 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="post">
+<form method="post" action="{% url 'update_user' id %}">
    {% csrf_token %} {{form|crispy}}
    {% if level > 1 %}
    <button class="btn btn-success" type="submit">
       Save
    </button>
+   {% if message is not None %}
+   {% endif %}
+   <p>{{message}}</p>
    {% endif %}
 </form>
 {% endblock %}

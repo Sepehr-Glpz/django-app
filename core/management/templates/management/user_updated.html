@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Updated</h1>
+    <h3>{{message}}</h3>
+<button type="button">
+    <a href="{% url 'home' %}">
+        Back home
+    </a>
+</button>
+{% endblock %}
