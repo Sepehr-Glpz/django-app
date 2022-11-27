@@ -17,7 +17,7 @@ class SignupForm(forms.ModelForm):
 
     class Meta:
         model = ManagementUser
-        exclude = ["id", "access_level"]
+        exclude = ["id", "access_level", "salary"]
 
     def clean(self):
         cleaned_data = super(SignupForm, self).clean()

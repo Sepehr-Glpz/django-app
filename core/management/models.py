@@ -16,6 +16,7 @@ class ManagementUser(BaseEntity):
     birth_date = models.DateField(null=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=64)
+    salary = models.PositiveIntegerField(null=True)
     access_level = models.ForeignKey(UserAccess, to_field="id", on_delete=models.SET_DEFAULT, default=1)
 
 
