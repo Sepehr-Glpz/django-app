@@ -1,8 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from core.base_models import BaseEntity
 # Create your models here.
-
 
 class UserAccess(BaseEntity):
     id = models.PositiveIntegerField(primary_key=True)
@@ -23,4 +22,4 @@ class ManagementUser(BaseEntity):
 class Payment(BaseEntity):
     payment_date = models.DateField(unique=True)
     amount = models.PositiveIntegerField()
-    owner = models.ForeignKey(ManagementUser, to_field="id", on_delete=models.CASCADE)
+    owner = models.ForeignKey(ManagementUser, null=True, to_field="id", on_delete=models.CASCADE)
