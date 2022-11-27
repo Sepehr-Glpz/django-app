@@ -21,7 +21,7 @@ def create_invite(request):
         form = RequestForm(request.POST)
 
         if not form.is_valid():
-            return redirect("/invite/")
+            return redirect("invite/")
 
         form.save()
         user, err = get_request_by_email(form.cleaned_data['email'])

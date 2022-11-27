@@ -136,5 +136,7 @@ LOGGING = {
     },
 }
 
+LOGIN_REDIRECT_URL = "/management/home"
+
 AUTH_USER_MODEL = 'management.CustomUser'
 

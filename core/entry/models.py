@@ -28,3 +28,4 @@ def resolve_entry(entry_id):
         updated_entry = EntryRequest.objects.filter(id=entry_id).update(resolved=True)
     except:
         return
+
