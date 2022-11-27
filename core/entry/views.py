@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .models import EntryRequest, get_request_by_email
+from .models import EntryRequest, get_request_by_email, resolve_entry
 from entry.forms import RequestForm, SignupForm
 from django.core.exceptions import ObjectDoesNotExist
+from uuid import UUID
 # Create your views here.
 
 
@@ -41,15 +42,60 @@ def create_invite_link(user_id, request):
 
 def get_invite_form(request, link):
     context = None
+    user_id = convert_id(link)
+    if user_id is None:
+        return HttpResponse(render(request, 'not_found.html',{"error": "invalid id!"}))
     try:
         requested_entry = EntryRequest.objects.get(id=link)
         if requested_entry.resolved:
             context = {"error": "This Users entry has already been resolved!"}
         else:
             form = SignupForm()
-            context = {"content": form}
+            context = {"content": form, "id": user_id}
     except ObjectDoesNotExist:
         context = {"error": "Failed to find"}
 
     return HttpResponse(render(request, "entry/invite.html", context))
 
+
+def signup(request, id):
+    if request.method != "POST":
+        return redirect("/entry/invite")
+
+    context = None
+
+    user_id = convert_id(id)
+    if user_id is None:
+        context = {"error": "invalid Id!"}
+        return HttpResponse(render(request, 'not_found.html', context))
+
+    user_form = SignupForm(request.POST)
+
+    if not user_form.is_valid():
+        redirect("/invite/")
+
+    pass_valid = validate_password(user_form.cleaned_data)
+    if not pass_valid:
+        context = {"content": user_form, "id": user_id, "error": "Confirm pass!"}
+        return HttpResponse(render(request, 'entry/invite.html', context))
+
+    user_form.save()
+    resolve_entry(id)
+
+    return HttpResponse(render(request, 'entry/welcome.html', context))
+
+
+def convert_id(user_id):
+    try:
+        uuid_obj = UUID(user_id, version=4)
+        return uuid_obj
+    except ValueError:
+        return None
+
+
+def validate_password(data_dict):
+    password = data_dict["password"]
+    confirmation = data_dict["confirm_password"]
+    if password != confirmation:
+        return False
+    return True
