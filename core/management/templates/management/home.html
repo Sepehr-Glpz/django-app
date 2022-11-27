@@ -2,11 +2,22 @@
 
 {% block content %}
     <h1>
-        Home
+        Users
     </h1>
-    {% if user.is_authenticated %}
-    <p>
-        Hello {{user}}
-    </p>
-    {% endif %}
+<ul class="list-group">
+    {% for user in users %}
+    <li class="list-group-item">
+        <a class="list-group-item list-group-item-action" href="
+        {% if user.id == current_id %}
+            {% url 'info' %}
+        {% else %}
+            {% url 'user_info' user.id %}
+        {% endif %}
+        ">
+            {{user}}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

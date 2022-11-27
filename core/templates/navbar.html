@@ -1,8 +1,12 @@
 <nav>
-    <h4>
-        Hello
-    </h4>
-    <h4>
-        World
-    </h4>
+    <h3>
+        Management
+        {% if user.is_authenticated %}
+        <button type="button">
+            <a href="{% url 'logout' %}">
+                Log Out
+            </a>
+        </button>
+        {% endif %}
+    </h3>
 </nav>

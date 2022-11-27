@@ -18,6 +18,10 @@ class AccessEnum(Enum):
     Econ = 3
 
 
+def is_normal_user(access_level):
+    return access_level == AccessEnum.Normal.value
+
+
 class UserAccess(BaseEntity):
     id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=30)
@@ -33,6 +37,13 @@ class ManagementUser(CustomUser):
     salary = models.PositiveIntegerField(null=True)
     access_level = models.ForeignKey(UserAccess, to_field="id", on_delete=models.SET_DEFAULT, default=1)
 
+    def __str__(self):
+        return self.username
+
+
+def get_all_users():
+    return ManagementUser.objects.all()
+
 
 def get_user_by_id(user_id):
     try:
@@ -40,7 +51,3 @@ def get_user_by_id(user_id):
         return user
     except:
         return None
-# class Payment(BaseEntity):
-#     payment_date = models.DateField(unique=True)
-#     amount = models.PositiveIntegerField()
-#     owner = models.ForeignKey(ManagementUser, null=True, to_field="id", on_delete=models.CASCADE)
