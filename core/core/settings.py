@@ -136,5 +136,5 @@ LOGGING = {
     },
 }
 
-# AUTH_USER_MODEL = 'management.CustomUser'
+AUTH_USER_MODEL = 'management.CustomUser'
 
