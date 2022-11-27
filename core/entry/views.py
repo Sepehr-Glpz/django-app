@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .models import EntryRequest, get_request_by_email, resolve_entry
+from .models import EntryRequest, get_request_by_email, resolve_entry, get_request_by_id
 from entry.forms import RequestForm, SignupForm
 from django.core.exceptions import ObjectDoesNotExist
 from uuid import UUID
+import logging
 # Create your views here.
 
+logger = logging.getLogger(__name__)
 
 def invite_page(request):
     form = RequestForm()
@@ -50,7 +52,8 @@ def get_invite_form(request, link):
         if requested_entry.resolved:
             context = {"error": "This Users entry has already been resolved!"}
         else:
-            form = SignupForm()
+            entry_request, _ = get_request_by_id(user_id)
+            form = SignupForm(initial={"email": entry_request.email})
             context = {"content": form, "id": user_id}
     except ObjectDoesNotExist:
         context = {"error": "Failed to find"}
@@ -76,7 +79,7 @@ def signup(request, id):
 
     pass_valid = validate_password(user_form.cleaned_data)
     if not pass_valid:
-        context = {"content": user_form, "id": user_id, "error": "Confirm pass!"}
+        context = {"content": user_form, "id": user_id}
         return HttpResponse(render(request, 'entry/invite.html', context))
 
     user_form.save()

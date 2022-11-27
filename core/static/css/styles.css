@@ -1,0 +1,8 @@
+.hidden-link {
+    text-decoration: none;
+}
+
+a.hidden-link:visited {
+    text-decoration: none;
+    color: inherit;
+}

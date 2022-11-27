@@ -12,9 +12,16 @@ def get_request_by_email(email):
     try:
         requested_user = EntryRequest.objects.get(email=email)
         return requested_user, None
-    except :
+    except:
         return None, "Failed to Find User"
 
+
+def get_request_by_id(request_id):
+    try:
+        request = EntryRequest.objects.get(id=request_id)
+        return request, None
+    except:
+        return None, "Failed to find request"
 
 def resolve_entry(entry_id):
     try:

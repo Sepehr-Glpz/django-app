@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Signup{% endblock %}
 
 {% block content %}
 {% if content is not None %}
   <form method="POST" action="{% url 'signup' id %}">
-    {% csrf_token %}
-    <fieldset>
-          {{content.as_p}}
-    </fieldset>
-    <button type="submit">Submit</button>
+    {% csrf_token %}{{content|crispy}}
+    <button class="btn btn-success" type="submit">Submit</button>
   </form>
 {% endif %}
 {% if error is not None %}
