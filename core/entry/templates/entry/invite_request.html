@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method="post" action="">
+<h3>
+    Create a new invite!
+</h3>
+<form method="post" action="{% url 'create_invite' %}">
     {% csrf_token %}
     <fieldset>
         {{form.as_p}}

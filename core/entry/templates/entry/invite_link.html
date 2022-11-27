@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>result goes here: {{link}}</p>
+{% if error != None %}
+    <p>{{error}}</p>
+{% endif %}
+{% endblock %}

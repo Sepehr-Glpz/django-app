@@ -7,3 +7,11 @@ class EntryRequest(BaseEntity):
     email = models.EmailField(unique=True)
     resolved = models.BooleanField(default=False)
 
+
+def get_request_by_email(email):
+    try:
+        requested_user = EntryRequest.objects.get(email=email)
+        return requested_user, None
+    except:
+        return None, "Failed to Find User"
+
