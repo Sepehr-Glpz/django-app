@@ -1,25 +1,62 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from core.base_models import BaseEntity
+from enum import Enum
 # Create your models here.
+
+
+class CustomUser(BaseEntity, AbstractUser):
+    username = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(unique=True, null=True)
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
+
+
+class AccessEnum(Enum):
+    Normal = 1
+    Hr = 2
+    Econ = 3
+
+
+def is_normal_user(access_level):
+    return access_level == AccessEnum.Normal.value
+
+
+def get_user_access_level(user_id):
+    try:
+        user = ManagementUser.objects.get(id=user_id)
+        return user.access_level
+    except:
+        return None
+
 
 class UserAccess(BaseEntity):
     id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=30)
 
+    def __str__(self):
+        return self.name
 
-class ManagementUser(BaseEntity):
+
+class ManagementUser(CustomUser):
     name = models.CharField(max_length=30, null=True)
-    username = models.CharField(max_length=20, unique=True)
     national_code = models.CharField(max_length=10, unique=True)
     birth_date = models.DateField(null=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=64)
-    salary = models.PositiveIntegerField(null=True)
+    salary = models.PositiveIntegerField(null=True, default=0)
     access_level = models.ForeignKey(UserAccess, to_field="id", on_delete=models.SET_DEFAULT, default=1)
 
+    def __str__(self):
+        return self.username
 
-# class Payment(BaseEntity):
-#     payment_date = models.DateField(unique=True)
-#     amount = models.PositiveIntegerField()
-#     owner = models.ForeignKey(ManagementUser, null=True, to_field="id", on_delete=models.CASCADE)
+
+def get_all_users():
+    return ManagementUser.objects.all()
+
+
+def get_user_by_id(user_id):
+    try:
+        user = ManagementUser.objects.get(id=user_id)
+        return user
+    except:
+        return None

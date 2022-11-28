@@ -4,10 +4,17 @@
 
 {% block content %}
 {% if content is not None %}
-  <form method="POST" action="{% url 'signup' id %}">
+<article class="bg-body shadow rounded d-flex flex-column justify-content-start align-items-center p-4 mt-2 mb-5 flex-grow-1">
+  <header class="container w-75 d-flex justify-content-center">
+    <h3 class="text-secondary">
+      Welcome
+    </h3>
+  </header>
+    <form class="pb-2 w-50" method="POST" action="{% url 'signup' id %}">
     {% csrf_token %}{{content|crispy}}
     <button class="btn btn-success" type="submit">Submit</button>
   </form>
+</article>
 {% endif %}
 {% if error is not None %}
 <h3>{{error}}</h3>

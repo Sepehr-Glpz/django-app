@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<article
+        class="bg-body shadow rounded d-flex flex-column justify-content-start align-items-center p-4 mt-2 mb-5 flex-grow-1">
+    <header class="w-75">
+        <h3 class="text-secondary">
+            Profile
+        </h3>
+            <hr />
+    </header>
+    <section class="w-50 mt-2">
+        <form method="post" action="{% url 'update_user' id %}">
+            {% csrf_token %} {{form|crispy}}
+            {% if level > 1 %}
+            <button class="btn btn-success" type="submit">
+                Save
+            </button>
+            {% endif %}
+        </form>
+    </section>
+
+
+</article>
+{% endblock %}

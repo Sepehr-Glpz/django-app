@@ -1,0 +1,31 @@
+[
+  {
+    "model": "management.UserAccess",
+    "pk": 1,
+    "fields": {
+      "id": 1,
+      "name": "Normal",
+      "creation_date": "2022-01-01",
+      "updated_date": "2022-01-01"
+    }
+  },
+  {
+    "model": "management.UserAccess",
+    "pk": 2,
+    "fields": {
+      "id": 2,
+      "name": "Hr",
+      "creation_date": "2022-01-01",
+      "updated_date": "2022-01-01"
+    }
+  },  {
+    "model": "management.UserAccess",
+    "pk": 3,
+    "fields": {
+      "id": 3,
+      "name": "Manager",
+      "creation_date": "2022-01-01",
+      "updated_date": "2022-01-01"
+    }
+  }
+]

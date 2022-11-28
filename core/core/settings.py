@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'entry.apps.EntryConfig',
     'management.apps.ManagementConfig',
+    'rest_api.apps.RestApiConfig',
     'crispy_forms',
     'crispy_bootstrap5'
 ]
@@ -112,6 +113,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR/'static'
+# STATICFILES_DIRS =[ BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
 
@@ -136,5 +138,10 @@ LOGGING = {
     },
 }
 
-# AUTH_USER_MODEL = 'management.CustomUser'
+LOGIN_REDIRECT_URL = "/management/home"
+LOGOUT_REDIRECT_URL = "/management/login"
+
+AUTH_USER_MODEL = 'management.CustomUser'
+
+FIXTURE_DIRS =[BASE_DIR / 'core/fixtures']
 

@@ -1,6 +1,7 @@
 import django.forms as forms
 from .models import EntryRequest
 from management.models import ManagementUser
+from django.contrib.auth.hashers import make_password
 
 
 class RequestForm(forms.ModelForm):
@@ -12,12 +13,14 @@ class RequestForm(forms.ModelForm):
 
 
 class SignupForm(forms.ModelForm):
-    password=forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput())
     confirm_password=forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = ManagementUser
-        exclude = ["id", "access_level", "salary"]
+        fields = [
+            "name", "username", "email", "national_code", "birth_date", "password",
+        ]
 
     def clean(self):
         cleaned_data = super(SignupForm, self).clean()
@@ -26,5 +29,11 @@ class SignupForm(forms.ModelForm):
 
         if password != confirm_password:
             raise forms.ValidationError(
-                "password and confirm_password does not match"
+                "password and confirm_password do not match"
             )
+
+
+    def save(self, commit=True):
+        user = super().save()
+        user.password = make_password(self.cleaned_data['password'])
+        return user.save()
