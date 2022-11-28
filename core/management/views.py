@@ -5,9 +5,10 @@ from .forms import DisplayForm
 from .models import get_user_by_id, is_normal_user, get_all_users, get_user_access_level
 
 # Create your views here.
+login_path = "/management/login"
 
 
-@login_required(login_url='/management/login')
+@login_required(login_url=login_path)
 def home(request):
     current_user = request.user
     users = get_all_users()
@@ -19,7 +20,7 @@ def home(request):
     return HttpResponse(render(request, "management/home.html", context))
 
 
-@login_required(login_url='/management/login')
+@login_required(login_url=login_path)
 def get_info(request):
     user = get_user_by_id(request.user.id)
     if user is None:
@@ -31,7 +32,7 @@ def get_info(request):
     return HttpResponse(render(request,'management/info.html', context))
 
 
-@login_required(login_url='/management/login')
+@login_required(login_url=login_path)
 def get_user_info(request, user_id):
     current_user = get_user_by_id(request.user.id)
     if current_user is None:
@@ -51,7 +52,7 @@ def get_user_info(request, user_id):
     return HttpResponse(render(request, 'management/user_info.html', context))
 
 
-@login_required(login_url='/management/login')
+@login_required(login_url=login_path)
 def edit_user(request, user_id):
     current_user = get_user_by_id(request.user.id)
     if current_user is None:

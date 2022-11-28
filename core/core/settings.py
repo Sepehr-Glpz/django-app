@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'entry.apps.EntryConfig',
     'management.apps.ManagementConfig',
+    'rest_api.apps.RestApiConfig',
     'crispy_forms',
     'crispy_bootstrap5'
 ]
@@ -141,4 +142,6 @@ LOGIN_REDIRECT_URL = "/management/home"
 LOGOUT_REDIRECT_URL = "/management/login"
 
 AUTH_USER_MODEL = 'management.CustomUser'
+
+FIXTURE_DIRS =[BASE_DIR / 'core/fixtures']
 
