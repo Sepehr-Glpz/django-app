@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import EntryRequest, get_request_by_email, resolve_entry, get_request_by_id
+from .models import EntryRequest, get_request_by_email, resolve_entry, get_request_by_id, entry_repeated, convert_id
 from entry.forms import RequestForm, SignupForm
 from django.core.exceptions import ObjectDoesNotExist
 from uuid import UUID
@@ -21,19 +21,20 @@ def invite_page(request):
 def create_invite(request):
     if request.method == "POST":
         form = RequestForm(request.POST)
+        form.is_valid()
+
+        context = None
+        entry_request = get_request_by_email(form.data['email'])
+        if entry_repeated(entry_request):
+            context = {"error": "This User has already been invited!"}
+            return HttpResponse(render(request, 'entry/invite_link.html', context))
 
         if not form.is_valid():
             return redirect("/entry/invite")
+        entry_request = form.save()
 
-        form.save()
-        user, err = get_request_by_email(form.cleaned_data['email'])
-
-        context = None
-        if err is not None:
-            context = {"error": err}
-        else:
-            link = create_invite_link(user.id, request)
-            context = {"link": link}
+        link = create_invite_link(entry_request.id, request)
+        context = {"link": link}
 
         return HttpResponse(render(request, 'entry/invite_link.html', context))
     return HttpResponse("Not Found")
@@ -77,12 +78,8 @@ def signup(request, id):
     user_form = SignupForm(request.POST)
 
     if not user_form.is_valid():
-        return redirect("/entry/invite")
-
-    # pass_valid = validate_password(user_form.cleaned_data)
-    # if not pass_valid:
-    #     context = {"content": user_form, "id": user_id}
-    #     return HttpResponse(render(request, 'entry/invite.html', context))
+        context = {"content": user_form, "id": user_id}
+        return HttpResponse(render(request, 'entry/invite.html', context))
 
     user_form.save()
     resolve_entry(id)
@@ -90,17 +87,3 @@ def signup(request, id):
     return redirect("/management/login")
 
 
-def convert_id(user_id):
-    try:
-        uuid_obj = UUID(user_id, version=4)
-        return uuid_obj
-    except ValueError:
-        return None
-
-
-def validate_password(data_dict):
-    password = data_dict["password"]
-    confirmation = data_dict["confirm_password"]
-    if password != confirmation:
-        return False
-    return True

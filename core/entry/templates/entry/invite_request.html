@@ -3,13 +3,22 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h3>
-    Create a new invite!
-</h3>
-<form method="post" action="{% url 'create_invite' %}">
-    {% csrf_token %}{{form|crispy}}
-    <button class="btn btn-success" type="submit">
+<article class="bg-body shadow rounded d-flex justify-content-center p-4 mt-2 mb-5 h-100">
+    <form class="w-50" method="post" action="{% url 'create_invite' %}">
+    <fieldset>
+        <legend>
+            <h4 class="d-flex justify-content-center">
+                Create a new entry invite
+            </h4>
+
+        </legend>
+        <hr />
+        {% csrf_token %}{{form|crispy}}
+    </fieldset>
+
+    <button class="btn btn-success w-100" type="submit">
         Create
     </button>
 </form>
+</article>
 {% endblock %}

@@ -1,0 +1,24 @@
+{% if user.is_authenticated %}
+<button class="btn btn-primary shadow-sm me-5" type="button">
+    <a class="text-dark" href="{% url 'logout' %}">
+        Log Out
+    </a>
+</button>
+<button class="btn btn-primary shadow-sm me-5" type="button">
+    <a class="text-dark" href="{% url 'home' %}">
+        Home
+    </a>
+</button>
+{% else %}
+<button class="btn btn-primary shadow-sm me-5" type="button">
+    <a class="text-dark" href="{% url 'login' %}">
+        Login
+    </a>
+</button>
+{% endif %}
+
+<button class="btn btn-success shadow-sm me-5" type="button">
+    <a class="text-dark" href="{% url 'invite' %}">
+        Invite
+    </a>
+</button>
