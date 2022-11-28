@@ -50,14 +50,18 @@ def get_invite_form(request, link):
     user_id = convert_id(link)
     if user_id is None:
         return HttpResponse(render(request, 'not_found.html', {"error": "invalid id!"}))
+
     try:
+
         requested_entry = EntryRequest.objects.get(id=link)
         if requested_entry.resolved:
-            context = {"error": "This Users entry has already been resolved!"}
+            context = {"error": "This User's entry has already been resolved!"}
+            return HttpResponse(render(request, 'entry/invite_link.html', context))
         else:
             entry_request, _ = get_request_by_id(user_id)
             form = SignupForm(initial={"email": entry_request.email})
             context = {"content": form, "id": user_id}
+
     except ObjectDoesNotExist:
         context = {"error": "Failed to find"}
 

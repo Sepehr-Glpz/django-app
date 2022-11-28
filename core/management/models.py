@@ -4,6 +4,7 @@ from core.base_models import BaseEntity
 from enum import Enum
 # Create your models here.
 
+
 class CustomUser(BaseEntity, AbstractUser):
     username = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True, null=True)
@@ -20,6 +21,14 @@ class AccessEnum(Enum):
 
 def is_normal_user(access_level):
     return access_level == AccessEnum.Normal.value
+
+
+def get_user_access_level(user_id):
+    try:
+        user = ManagementUser.objects.get(id=user_id)
+        return user.access_level
+    except:
+        return None
 
 
 class UserAccess(BaseEntity):

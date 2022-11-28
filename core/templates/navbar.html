@@ -2,6 +2,11 @@
         <h3 class="d-flex justify-content-center ms-5 mb-0 rounded ps-2 pe-2 pt-1 pb-1">
            User Management
         </h3>
+    {% if user.is_authenticated %}
+        <span class="text-secondary">
+            Welcome {{user}} !
+        </span>
+    {% endif %}
         <div class="d-flex flex-row-reverse justify-content-between">
             {% include 'navbar_buttons.html' %}
         </div>

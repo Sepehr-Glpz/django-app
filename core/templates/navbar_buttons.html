@@ -1,24 +1,33 @@
 {% if user.is_authenticated %}
-<button class="btn btn-primary shadow-sm me-5" type="button">
-    <a class="text-dark" href="{% url 'logout' %}">
+<a href="{% url 'logout' %}">
+    <button class="btn btn-primary shadow-sm me-5 text-dark" type="button">
         Log Out
-    </a>
-</button>
-<button class="btn btn-primary shadow-sm me-5" type="button">
-    <a class="text-dark" href="{% url 'home' %}">
+    </button>
+</a>
+<a href="{% url 'home' %}">
+    <button class="btn btn-primary shadow-sm me-5 text-dark" type="button">
         Home
-    </a>
-</button>
+    </button>
+</a>
+
+<a href="{% url 'info' %}">
+    <button class="btn btn-primary shadow-sm me-5 text-dark" type="button">
+        Profile
+    </button>
+</a>
+
 {% else %}
-<button class="btn btn-primary shadow-sm me-5" type="button">
-    <a class="text-dark" href="{% url 'login' %}">
+
+<a href="{% url 'login' %}">
+    <button class="btn btn-primary shadow-sm me-5 text-dark" type="button">
         Login
-    </a>
-</button>
+    </button>
+</a>
+
 {% endif %}
 
-<button class="btn btn-success shadow-sm me-5" type="button">
-    <a class="text-dark" href="{% url 'invite' %}">
+<a href="{% url 'invite' %}">
+    <button class="btn btn-success shadow-sm me-5 text-dark" type="button">
         Invite
-    </a>
-</button>
+    </button>
+</a>

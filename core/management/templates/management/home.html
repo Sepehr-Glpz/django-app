@@ -1,23 +1,31 @@
 {% extends 'base.html' %}
-
+{% block title %}Home{% endblock %}
 {% block content %}
-    <h1>
-        Users
-    </h1>
-<ul class="list-group">
-    {% for user in users %}
-    <li class="list-group-item">
-        <a class="list-group-item list-group-item-action" href="
+<article class="bg-body shadow rounded d-flex justify-content-between p-4 mt-2 mb-5 h-100">
+    <section class="w-50 d-flex flex-column">
+        <h2 class="text-secondary">
+            Users
+        </h2>
+        <ul class="list-group overflow-auto h-50">
+            {% for user in users %}
+            <li class="list-group-item">
+                <a class="list-group-item list-group-item-action" href="
         {% if user.id == current_id %}
             {% url 'info' %}
         {% else %}
             {% url 'user_info' user.id %}
         {% endif %}
         ">
-            {{user}}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-
+                    {{user}}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    <section class="w-50 d-flex flex-column align-items-center justify-content-start">
+        <h5 class="text-secondary">
+            User Role: <strong class="text-dark">{{level_name}}</strong>
+        </h5>
+    </section>
+</article>
 {% endblock %}

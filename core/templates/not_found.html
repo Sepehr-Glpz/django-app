@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% block title %} Not Found {% endblock %}
+{% load static %}
 
 {% block content %}
-<h1>
-    Not Found
-</h1>
+<div class="bg-body shadow rounded d-flex flex-column align-items-center justify-content-start p-4 mt-2 mb-5 h-100">
+<img class="img-fluid" src="{% static 'management/not_found_img.jpg' %}" alt="Not_found" />
+</div>
 {{error}}
 {% endblock %}

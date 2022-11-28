@@ -15,7 +15,7 @@
     </header>
     <hr/>
     {% if error is None and link is not None %}
-    <section class="d-flex justify-content-center align-items-center">
+    <section class="d-flex justify-content-center align-items-center mt-3">
         <div class="rounded bg-success w-50 p-3 d-flex flex-column justify-content-start align-items-center shadow-sm">
             <input id="link-input" class="form-control w-100" type="text" readonly value="{{link}}" aria-describedby="link-help"/>
             <span class="text-light form-text w-100 text-left" id="link-help">Be careful not to share this link publicly</span>
@@ -25,9 +25,9 @@
         </div>
     </section>
     {% else %}
-    <section class="d-flex justify-content-center align-items-center">
+    <section class="d-flex justify-content-center align-items-center mt-3">
         <div class="rounded bg-danger w-50 p-3 d-flex flex-column justify-content-start align-items-center shadow-sm">
-            <h3>
+            <h3 class="text-center">
                 {{error}}
             </h3>
         </div>
